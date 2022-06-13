@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Header from "./componentes/Header.jsx";
+import AddContador from "./componentes/AddContador";
+import ListContadores from "./componentes/ListContadores";
+
+
+
+
 
 function App() {
+
+ const savedContadores = 
+  localStorage.getItem('listaContadores') ?
+  JSON.parse (localStorage.getItem('listaContadores')) : [];
+  
+
+  const [contadores, agregarContador] = useState(savedContadores);
+
+  useEffect(() => {
+    localStorage.setItem("listaContadores", JSON.stringify(contadores));
+  }, [contadores]);
+
+   
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="contenedor">
+      <Header />
+     <AddContador contadores={contadores} agregarContador={agregarContador} /> 
+      <ListContadores
+        contadores={contadores}
+        agregarContador={agregarContador}
+      />
+    
     </div>
   );
 }
